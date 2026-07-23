@@ -22,7 +22,7 @@ export default function UrlInput({ onSubmit, isLoading }) {
           type="text"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="Paste link here (YouTube, Twitter, SoundCloud...)"
+          placeholder="Paste link here"
           disabled={isLoading}
           className="w-full h-14 pl-12 pr-4 bg-surface-container-lowest border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary-container focus:border-primary outline-none transition-all text-body-md font-unna italic shadow-sm disabled:opacity-50"
         />
