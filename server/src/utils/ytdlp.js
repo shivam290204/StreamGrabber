@@ -184,7 +184,7 @@ const downloadMedia = async ({ url, type = 'video', formatId, audioFormat = 'mp3
   const timestamp = Date.now();
   let extTemplate = '%(ext)s';
   
-  if (type === 'file') {
+  if (type === 'file' || info.isDirectFile) {
     extTemplate = info.ext || 'file';
   } else if (type === 'audio') {
     extTemplate = audioFormat;
