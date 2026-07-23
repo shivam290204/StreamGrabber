@@ -189,7 +189,7 @@ const downloadMedia = async ({ url, type = 'video', formatId, audioFormat = 'mp3
   } else if (type === 'audio') {
     extTemplate = audioFormat;
   } else {
-    extTemplate = 'mp4';
+    extTemplate = '%(ext)s'; // Let yt-dlp determine the correct extension (e.g., jpg for images)
   }
 
   const outputTemplate = path.join(DOWNLOADS_DIR, `${sanitizedTitle}_${timestamp}.${extTemplate}`);
