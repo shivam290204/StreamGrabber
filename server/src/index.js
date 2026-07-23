@@ -36,14 +36,6 @@ app.get('/health', (req, res) => {
 // Start cleanup cron job
 initCleanupCron();
 
-app.get("/", (req, res) => {
-  res.send("Backend is working!");
-});
-
-app.get("/test", (req, res) => {
-  res.json({ message: "Test route working!" });
-});
-
 // Start Express server
 app.listen(PORT, () => {
   console.log(`===========================================`);
