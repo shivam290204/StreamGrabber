@@ -41,7 +41,7 @@ export default function UrlInput({ onSubmit, isLoading }) {
         ) : (
           <>
             <Zap size={20} />
-            Fetch Info
+            Download
           </>
         )}
       </button>

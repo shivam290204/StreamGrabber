@@ -10,7 +10,6 @@ export default function App() {
   // Step workflow states: 'idle' | 'fetching_info' | 'info_loaded' | 'downloading' | 'success' | 'error'
   const [appState, setAppState] = useState('idle');
   
-  const [mediaInfo, setMediaInfo] = useState(null);
   const [downloadResult, setDownloadResult] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -32,34 +31,15 @@ export default function App() {
     }
   };
 
-  // Step 1: Fetch metadata & format options
-  const handleFetchInfo = async (url) => {
+  // Direct Download Action
+  const handleDownloadAction = async (url) => {
     setCurrentUrl(url);
-    setAppState('fetching_info');
+    setAppState('downloading');
     setErrorMessage('');
-    setMediaInfo(null);
     setDownloadResult(null);
 
     try {
-      const info = await fetchMediaInfo(url);
-      setMediaInfo(info);
-      setAppState('info_loaded');
-    } catch (err) {
-      setErrorMessage(err.message || 'Failed to fetch video information.');
-      setAppState('error');
-    }
-  };
-
-  // Step 2: Trigger targeted download (Video resolution or Audio format)
-  const handleDownload = async (options) => {
-    setAppState('downloading');
-    setErrorMessage('');
-
-    try {
-      const payload = {
-        url: currentUrl,
-        ...options
-      };
+      const payload = { url };
       const result = await triggerDownload(payload);
       setDownloadResult(result);
       setAppState('success');
@@ -92,7 +72,6 @@ export default function App() {
   const handleReset = () => {
     setAppState('idle');
     setCurrentUrl('');
-    setMediaInfo(null);
     setDownloadResult(null);
     setErrorMessage('');
   };
@@ -122,17 +101,15 @@ export default function App() {
             </p>
             
             <UrlInput
-              onSubmit={handleFetchInfo}
-              isLoading={appState === 'fetching_info'}
+              onSubmit={handleDownloadAction}
+              isLoading={appState === 'downloading'}
             />
           </section>
 
           {/* Media Details Card (Active Result) */}
-          {(mediaInfo || downloadResult || appState === 'error') && (
+          {(appState === 'downloading' || downloadResult || appState === 'error') && (
             <section className="w-full max-w-3xl animate-in fade-in slide-in-from-bottom-4 duration-700">
               <FormatSelector
-                mediaInfo={mediaInfo}
-                onDownload={handleDownload}
                 isDownloading={appState === 'downloading'}
                 downloadResult={downloadResult}
                 downloadError={appState === 'error' ? errorMessage : ''}
