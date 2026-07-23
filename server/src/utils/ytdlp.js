@@ -87,8 +87,13 @@ const fetchMediaInfo = async (url) => {
 
   let rawInfo;
   try {
-    rawInfo = await withTimeout(youtubedl(url, flags), 12000);
+    rawInfo = await withTimeout(youtubedl(url, flags), 45000); // Increased timeout to 45s
   } catch (err) {
+    console.error('[yt-dlp fetchMediaInfo Error]:', err.message);
+    
+    // Only fallback to HTML if it's a timeout or generic error, but if it's a yt-dlp specific failure 
+    // on a known video site, it might be better to throw. For now, we keep the HTML fallback 
+    // but at least we can see the error in the logs.
     // 3. Fallback: If yt-dlp fails (e.g. generic webpage), offer it as an HTML direct file download
     return {
       isDirectFile: true,
